@@ -1,70 +1,52 @@
 import BlogCard from './BlogCard';
-import businessPost from '@/assets/business-post.jpg';
-import techPost from '@/assets/tech-post.jpg';
-import fashionPost from '@/assets/fashion-post.jpg';
-import lifestylePost from '@/assets/lifestyle-post.jpg';
-import workLifestyle from '@/assets/work-lifestyle.jpg';
-import fashionLifestyle from '@/assets/fashion-lifestyle.jpg';
+import { usePublishedPosts } from '@/hooks/usePosts';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const blogPosts = [
-  {
-    title: "Blog Post Title — Main Content Description",
-    category: "CATEGORY",
-    date: "DATE",
-    excerpt: "Blog post excerpt — Brief description of the article content for preview.",
-    image: businessPost
-  },
-  {
-    title: "Article Title — Content Preview", 
-    category: "CATEGORY",
-    date: "DATE",
-    excerpt: "Article excerpt — Short summary of what readers can expect from this post.",
-    image: techPost
-  },
-  {
-    title: "Post Title — Article Summary",
-    category: "CATEGORY",
-    date: "DATE",
-    excerpt: "Post excerpt — Description that gives readers insight into the article topic.",
-    image: workLifestyle
-  },
-  {
-    title: "Title — Description", 
-    category: "CATEGORY",
-    date: "DATE",
-    image: lifestylePost
-  },
-  {
-    title: "Sample Title — Sample Description",
-    category: "CATEGORY",
-    date: "DATE", 
-    image: fashionLifestyle
-  },
-  {
-    title: "Content Title — Content Description",
-    category: "CATEGORY",
-    date: "DATE",
-    image: fashionPost
-  }
-];
+const formatDate = (iso?: string | null) =>
+  iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
 const BlogGrid = () => {
+  const { data: posts, isLoading } = usePublishedPosts();
+  // Skip the first one (already shown in FeaturedArticle)
+  const grid = (posts ?? []).slice(1);
+
   return (
-    <section className="container-blog py-16">
-      <h2 id="all-posts-heading" className="section-title mb-8">All Posts</h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {blogPosts.map((post, index) => (
-          <BlogCard
-            key={index}
-            title={post.title}
-            category={post.category}
-            date={post.date}
-            excerpt={index < 3 ? post.excerpt : undefined}
-            image={post.image}
-            isSmall={index >= 3}
-          />
-        ))}
+    <section className="container-blog py-20 border-t border-border">
+      <div className="flex items-end justify-between mb-12">
+        <div>
+          <p className="section-eyebrow">The Archive</p>
+          <h2 id="all-posts-heading" className="section-title mb-0">All Reviews</h2>
+        </div>
       </div>
+
+      {isLoading ? (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="space-y-4">
+              <Skeleton className="aspect-[16/10] w-full" />
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-6 w-full" />
+            </div>
+          ))}
+        </div>
+      ) : grid.length === 0 ? (
+        <p className="text-muted-foreground">No more reviews yet.</p>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+          {grid.map((post) => (
+            <BlogCard
+              key={post.id}
+              slug={post.slug}
+              title={post.title}
+              category={post.category}
+              platform={post.platform}
+              date={formatDate(post.published_at)}
+              excerpt={post.excerpt ?? undefined}
+              image={post.cover_image ?? '/placeholder.svg'}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };
