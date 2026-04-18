@@ -12,8 +12,10 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, RotateCcw } from 'lucide-react';
 import Header from '@/components/Header';
+import RichTextEditor from '@/components/admin/RichTextEditor';
+import CoverImageField from '@/components/admin/CoverImageField';
 import { CATEGORIES, PLATFORMS, CategorySlug, PlatformSlug } from '@/lib/categories';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -21,6 +23,9 @@ const slugify = (s: string) =>
   s.toLowerCase().trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+
+const wordCount = (html: string) =>
+  html.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
 
 const PostEditor = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,14 +44,12 @@ const PostEditor = () => {
   const [published, setPublished] = useState(false);
   const [busy, setBusy] = useState(false);
   const [loadingPost, setLoadingPost] = useState(!isNew);
-
-  // Auto-generate slug from title for new posts
   const [slugTouched, setSlugTouched] = useState(false);
+
   useEffect(() => {
     if (isNew && !slugTouched) setSlug(slugify(title));
   }, [title, isNew, slugTouched]);
 
-  // Load existing post
   useEffect(() => {
     if (isNew) return;
     supabase.from('posts').select('*').eq('id', id!).maybeSingle().then(({ data, error }) => {
@@ -104,6 +107,9 @@ const PostEditor = () => {
     );
   }
 
+  const wc = wordCount(content);
+  const readMins = Math.max(1, Math.round(wc / 220));
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -112,29 +118,49 @@ const PostEditor = () => {
           <ArrowLeft className="h-4 w-4 mr-1.5" /> Back to dashboard
         </Button>
 
-        <h1 className="font-display text-4xl font-semibold tracking-tight mb-8">
-          {isNew ? 'New review' : 'Edit review'}
-        </h1>
+        <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+          <h1 className="font-display text-4xl font-semibold tracking-tight">
+            {isNew ? 'New review' : 'Edit review'}
+          </h1>
+          <p className="text-xs text-muted-foreground">
+            {wc.toLocaleString()} words · ~{readMins} min read
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Card className="p-6 space-y-5 shadow-soft">
+          <Card className="p-6 space-y-6 shadow-soft">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="slug">URL slug</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="slug">URL slug</Label>
+                {slugTouched && (
+                  <button
+                    type="button"
+                    onClick={() => { setSlug(slugify(title)); setSlugTouched(false); }}
+                    className="text-xs text-accent hover:underline inline-flex items-center gap-1"
+                  >
+                    <RotateCcw className="h-3 w-3" /> Reset to title
+                  </button>
+                )}
+              </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">/blog/</span>
+                <span className="text-sm text-muted-foreground whitespace-nowrap">/blog/</span>
                 <Input
                   id="slug"
                   value={slug}
                   onChange={(e) => { setSlug(slugify(e.target.value)); setSlugTouched(true); }}
                   required
                   className="font-mono text-sm"
+                  placeholder="my-custom-url"
                 />
               </div>
+              <p className="text-xs text-muted-foreground">
+                Auto-generated from the title. Edit anytime to set a custom URL.
+              </p>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -164,21 +190,25 @@ const PostEditor = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="cover">Cover image URL</Label>
-              <Input id="cover" type="url" value={coverImage} onChange={(e) => setCoverImage(e.target.value)} placeholder="https://images.unsplash.com/…" />
-              {coverImage && (
-                <img src={coverImage} alt="" className="mt-2 aspect-[16/9] object-cover w-full max-w-sm border border-border" />
-              )}
+              <Label>Cover image</Label>
+              <CoverImageField value={coverImage} onChange={setCoverImage} />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="excerpt">Excerpt</Label>
-              <Textarea id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={3} placeholder="A short summary shown on listings." />
+              <Textarea
+                id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)}
+                rows={3} placeholder="A short summary shown on listings and previews."
+              />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="content">Content (Markdown)</Label>
-              <Textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} rows={16} className="font-mono text-sm" />
+              <Label>Article body</Label>
+              <RichTextEditor
+                value={content}
+                onChange={setContent}
+                placeholder="Start writing your review… use the toolbar to format, add links and embed images."
+              />
             </div>
 
             <div className="flex items-center justify-between border-t border-border pt-5">

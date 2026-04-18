@@ -11,6 +11,9 @@ import type { Post } from '@/hooks/usePosts';
 const formatDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
 
+// Detect TipTap-generated HTML vs legacy markdown.
+const looksLikeHtml = (s: string) => /<\/?(p|h[1-6]|ul|ol|li|blockquote|pre|img|a|strong|em|hr)\b/i.test(s);
+
 const renderMarkdown = (md: string) => {
   const lines = md.split('\n');
   const out: string[] = [];
@@ -22,35 +25,37 @@ const renderMarkdown = (md: string) => {
   for (const line of lines) {
     if (line.startsWith('```')) {
       if (inCode) {
-        out.push(`<pre class="bg-secondary p-4 my-4 overflow-x-auto text-sm font-mono"><code>${codeBuf.join('\n').replace(/</g, '&lt;')}</code></pre>`);
+        out.push(`<pre><code>${codeBuf.join('\n').replace(/</g, '&lt;')}</code></pre>`);
         codeBuf = []; inCode = false;
       } else { flushList(); inCode = true; }
       continue;
     }
     if (inCode) { codeBuf.push(line); continue; }
 
-    if (/^### /.test(line)) { flushList(); out.push(`<h3 class="font-display text-2xl font-semibold mt-10 mb-3">${line.slice(4)}</h3>`); }
-    else if (/^## /.test(line)) { flushList(); out.push(`<h2 class="font-display text-3xl font-semibold mt-12 mb-4">${line.slice(3)}</h2>`); }
-    else if (/^# /.test(line)) { flushList(); out.push(`<h1 class="font-display text-4xl font-semibold mt-12 mb-4">${line.slice(2)}</h1>`); }
+    if (/^### /.test(line)) { flushList(); out.push(`<h3>${line.slice(4)}</h3>`); }
+    else if (/^## /.test(line)) { flushList(); out.push(`<h2>${line.slice(3)}</h2>`); }
+    else if (/^# /.test(line)) { flushList(); out.push(`<h1>${line.slice(2)}</h1>`); }
     else if (/^- /.test(line)) {
-      if (!inList) { out.push('<ul class="list-disc ml-6 my-4 space-y-1">'); inList = true; }
+      if (!inList) { out.push('<ul>'); inList = true; }
       out.push(`<li>${line.slice(2).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</li>`);
     } else if (/^\d+\. /.test(line)) {
-      if (!inList) { out.push('<ol class="list-decimal ml-6 my-4 space-y-1">'); inList = true; }
+      if (!inList) { out.push('<ol>'); inList = true; }
       out.push(`<li>${line.replace(/^\d+\. /, '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</li>`);
     } else if (line.trim() === '') {
       flushList();
     } else {
       flushList();
       const html = line
-        .replace(/`([^`]+)`/g, '<code class="bg-secondary px-1.5 py-0.5 rounded text-sm font-mono">$1</code>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-      out.push(`<p class="my-4 leading-relaxed text-foreground/90">${html}</p>`);
+      out.push(`<p>${html}</p>`);
     }
   }
   flushList();
   return out.join('\n');
 };
+
+const renderContent = (raw: string) => (looksLikeHtml(raw) ? raw : renderMarkdown(raw));
 
 const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -114,8 +119,8 @@ const BlogDetail = () => {
 
               {post.content && (
                 <div
-                  className="prose prose-lg max-w-none font-sans"
-                  dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
+                  className="article-body prose prose-lg max-w-none font-sans"
+                  dangerouslySetInnerHTML={{ __html: renderContent(post.content) }}
                 />
               )}
             </>

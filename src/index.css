@@ -171,6 +171,29 @@
   }
   .ornament-rule > * { @apply px-4 text-accent text-lg; }
 
+  /* Article body — used by rendered post HTML */
+  .article-body h1 { @apply font-display text-4xl font-semibold mt-12 mb-4 tracking-tight; }
+  .article-body h2 { @apply font-display text-3xl font-semibold mt-12 mb-4 tracking-tight; }
+  .article-body h3 { @apply font-display text-2xl font-semibold mt-10 mb-3 tracking-tight; }
+  .article-body p { @apply my-4 leading-relaxed text-foreground/90; }
+  .article-body ul { @apply list-disc ml-6 my-4 space-y-1; }
+  .article-body ol { @apply list-decimal ml-6 my-4 space-y-1; }
+  .article-body li { @apply leading-relaxed text-foreground/90; }
+  .article-body blockquote {
+    @apply border-l-4 border-accent pl-5 my-6 italic text-foreground/80 font-display text-lg;
+  }
+  .article-body pre {
+    @apply bg-secondary p-4 my-6 overflow-x-auto text-sm font-mono rounded-md;
+  }
+  .article-body code {
+    @apply bg-secondary px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+  .article-body pre code { @apply bg-transparent p-0; }
+  .article-body a { @apply text-accent underline underline-offset-2 hover:text-accent/80; }
+  .article-body img { @apply my-8 w-full rounded-md border border-border; }
+  .article-body hr { @apply my-10 border-border; }
+  .article-body strong { @apply font-semibold text-foreground; }
+
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
