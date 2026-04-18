@@ -152,7 +152,16 @@ const PostEditor = () => {
                 <Input
                   id="slug"
                   value={slug}
-                  onChange={(e) => { setSlug(slugify(e.target.value)); setSlugTouched(true); }}
+                  onChange={(e) => {
+                    // Allow hyphens freely while typing; only lowercase and strip invalid chars.
+                    const cleaned = e.target.value
+                      .toLowerCase()
+                      .replace(/\s+/g, '-')
+                      .replace(/[^a-z0-9-]/g, '');
+                    setSlug(cleaned);
+                    setSlugTouched(true);
+                  }}
+                  onBlur={() => setSlug((s) => s.replace(/-+/g, '-').replace(/^-|-$/g, ''))}
                   required
                   className="font-mono text-sm"
                   placeholder="my-custom-url"
