@@ -30,11 +30,11 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <TooltipProvider>
-        <SkipLink />
-        <Toaster />
-        <Sonner />
         <BrowserRouter>
           <AuthProvider>
+            <SkipLink />
+            <Toaster />
+            <Sonner />
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading…</div>}>
               <Routes>
                 <Route path="/" element={<Index />} />
