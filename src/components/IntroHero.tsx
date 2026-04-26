@@ -31,29 +31,29 @@ const IntroHero = () => {
         }}
       />
 
-      <div className="container-blog py-24 md:py-32 relative">
-        {/* Floating accent badge */}
-        <div className="absolute top-10 right-6 hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border shadow-[var(--shadow-soft)] animate-[float_6s_ease-in-out_infinite]">
-          <Star className="h-3.5 w-3.5 text-accent fill-accent" />
-          <span className="text-xs font-semibold tracking-wide text-foreground">
+      <div className="container-blog py-16 md:py-24 relative">
+        {/* Floating accent badge — only on larger screens */}
+        <div className="absolute top-8 right-6 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border border-border shadow-[var(--shadow-soft)] animate-[float_6s_ease-in-out_infinite]">
+          <Star className="h-3 w-3 text-accent fill-accent" />
+          <span className="text-xs font-medium tracking-wide text-foreground">
             Reviewed, not sponsored
           </span>
         </div>
 
-        <div className="max-w-4xl">
+        <div className="max-w-3xl">
           <p className="section-eyebrow inline-flex items-center gap-2">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
             Denorbit — digital products, dissected
           </p>
 
-          <h1 className="featured-title mt-6 text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-display font-semibold text-foreground tracking-tight leading-[1.1] mt-5 text-[2rem] sm:text-4xl md:text-[2.75rem] lg:text-5xl">
             We test the{' '}
             <span className="relative inline-block">
               <span className="italic text-accent">themes, plugins & templates</span>
               <svg
                 aria-hidden
                 viewBox="0 0 300 12"
-                className="absolute left-0 -bottom-2 w-full h-3 text-accent/60"
+                className="absolute left-0 -bottom-1.5 w-full h-2.5 text-accent/60"
                 preserveAspectRatio="none"
               >
                 <path
@@ -66,13 +66,11 @@ const IntroHero = () => {
               </svg>
             </span>{' '}
             you're about to buy — so you don't{' '}
-            <span className="relative whitespace-nowrap">
-              <span className="line-through text-muted-foreground/60">waste money</span>
-            </span>{' '}
-            <span className="text-foreground">have to.</span>
+            <span className="line-through text-muted-foreground/60">waste money</span>{' '}
+            have to.
           </h1>
 
-          <p className="mt-8 text-lg md:text-xl text-muted-foreground leading-relaxed font-sans max-w-2xl">
+          <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed font-sans max-w-2xl">
             Independent, hands-on reviews of digital products for{' '}
             <span className="text-foreground font-medium">WordPress</span>,{' '}
             <span className="text-foreground font-medium">Shopify</span>,{' '}
@@ -82,23 +80,23 @@ const IntroHero = () => {
             them.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <Button asChild size="lg" className="group h-12 px-7 text-base shadow-[var(--shadow-lift)]">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Button asChild size="default" className="group h-11 px-6 shadow-[var(--shadow-lift)]">
               <Link to="/posts">
                 Browse all reviews
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="h-12 px-7 text-base">
+            <Button asChild variant="outline" size="default" className="h-11 px-6">
               <Link to="/about">What we do</Link>
             </Button>
 
-            <div className="hidden sm:flex items-center gap-2 ml-2 pl-4 border-l border-border">
+            <div className="hidden sm:flex items-center gap-2 ml-1 pl-4 border-l border-border">
               <div className="flex -space-x-2">
                 {[0, 1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="h-8 w-8 rounded-full bg-gradient-to-br from-accent to-accent/40 border-2 border-background"
+                    className="h-7 w-7 rounded-full bg-gradient-to-br from-accent to-accent/40 border-2 border-background"
                     style={{ transform: `rotate(${i * 4 - 6}deg)` }}
                   />
                 ))}
@@ -110,12 +108,12 @@ const IntroHero = () => {
             </div>
           </div>
 
-          <ul className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3">
+          <ul className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3">
             {HIGHLIGHTS.map(({ icon: Icon, label }, i) => (
               <li
                 key={label}
                 className="group flex items-center gap-2.5 text-sm text-foreground/80 border-l-2 border-accent/40 pl-3 hover:border-accent transition-colors"
-                style={{ animation: `fadeUp 0.6s ease ${0.1 + i * 0.1}s both` }}
+                style={{ animation: `fadeUp 0.5s ease ${0.1 + i * 0.08}s both` }}
               >
                 <Icon className="h-4 w-4 text-accent shrink-0 group-hover:scale-110 transition-transform" />
                 <span>{label}</span>
@@ -128,10 +126,10 @@ const IntroHero = () => {
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
+          50% { transform: translateY(-6px); }
         }
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(12px); }
+          from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
