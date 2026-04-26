@@ -51,7 +51,7 @@ const FAQS = [
 
 const FAQSection = () => {
   return (
-    <section className="container-blog py-24 border-t border-border">
+    <section className="container-blog py-16 md:py-20 border-t border-border">
       <div className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20">
         <div>
           <p className="section-eyebrow inline-flex items-center gap-2">

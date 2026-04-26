@@ -11,7 +11,7 @@ const COLORS = [
 
 const CategoryShowcase = () => {
   return (
-    <section className="container-blog py-16 border-t border-border">
+    <section className="container-blog py-12 md:py-16 border-t border-border">
       <p className="section-eyebrow">Browse</p>
       <h2 className="section-title">Explore by category</h2>
 
