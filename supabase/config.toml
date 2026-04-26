@@ -1,4 +1,4 @@
 project_id = "rqdopopsosbnzwaozwsd"
 
-[functions.bootstrap-admin]
+[functions.sitemap]
 verify_jwt = false
