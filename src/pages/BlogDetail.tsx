@@ -1,13 +1,24 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BlogCard from '@/components/BlogCard';
+import JsonLd from '@/components/JsonLd';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { categoryLabel, platformLabel } from '@/lib/categories';
 import { usePublishedPosts, type Post } from '@/hooks/usePosts';
+
+const SITE_URL = 'https://denorbit.online';
+const ORG_ID = `${SITE_URL}/#organization`;
+
+const stripHtml = (html: string) =>
+  html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 const formatDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
