@@ -29,7 +29,7 @@ const FeaturedArticle = () => {
   if (!post) {
     return (
       <section className="container-blog py-24 text-center">
-        <p className="section-eyebrow">Welcome to PixelCritic</p>
+        <p className="section-eyebrow">Welcome to Denorbit</p>
         <h2 className="featured-title max-w-3xl mx-auto">No reviews published yet — sign in as admin to write your first one.</h2>
       </section>
     );
