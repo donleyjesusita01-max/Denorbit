@@ -27,7 +27,7 @@ const BlogGrid = () => {
   };
 
   return (
-    <section className="container-blog py-20 border-t border-border">
+    <section className="container-blog py-14 md:py-20 border-t border-border">
       <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
         <div>
           <p className="section-eyebrow">The Archive</p>

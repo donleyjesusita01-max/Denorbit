@@ -44,8 +44,8 @@ const BlogCard = ({
             <time className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">{date}</time>
           </div>
 
-          <h3 className={`font-display font-semibold text-foreground leading-[1.18] tracking-tight group-hover:text-accent transition-colors ${
-            isSmall ? 'text-lg' : 'text-2xl'
+          <h3 className={`font-display font-semibold text-foreground leading-[1.2] tracking-tight group-hover:text-accent transition-colors ${
+            isSmall ? 'text-base' : 'text-xl'
           }`}>
             {title}
           </h3>

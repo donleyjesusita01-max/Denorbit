@@ -8,7 +8,7 @@ const Terms = () => {
       
       <main id="main-content" className="container-blog py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
             Terms of Service
           </h1>
           
