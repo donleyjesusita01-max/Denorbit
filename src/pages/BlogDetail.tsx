@@ -3,10 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BlogCard from '@/components/BlogCard';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { categoryLabel, platformLabel } from '@/lib/categories';
-import type { Post } from '@/hooks/usePosts';
+import { usePublishedPosts, type Post } from '@/hooks/usePosts';
 
 const formatDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
@@ -69,6 +70,21 @@ const BlogDetail = () => {
     enabled: !!slug,
   });
 
+  const { data: allPosts } = usePublishedPosts();
+
+  // Related: same category first, then most recent. Exclude current. Limit 3.
+  const related = (allPosts ?? [])
+    .filter((p) => p.slug !== slug)
+    .sort((a, b) => {
+      const aMatch = post && a.category === post.category ? 1 : 0;
+      const bMatch = post && b.category === post.category ? 1 : 0;
+      if (aMatch !== bMatch) return bMatch - aMatch;
+      const ad = a.published_at ? new Date(a.published_at).getTime() : 0;
+      const bd = b.published_at ? new Date(b.published_at).getTime() : 0;
+      return bd - ad;
+    })
+    .slice(0, 3);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -126,6 +142,37 @@ const BlogDetail = () => {
             </>
           )}
         </article>
+
+        {post && related.length > 0 && (
+          <section className="container-blog mt-24 pt-16 border-t border-border">
+            <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
+              <div>
+                <p className="section-eyebrow">Keep reading</p>
+                <h2 className="section-title mb-0">Related reviews</h2>
+              </div>
+              <Link
+                to="/posts"
+                className="text-sm font-semibold text-accent hover:underline underline-offset-4"
+              >
+                Browse all →
+              </Link>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+              {related.map((p) => (
+                <BlogCard
+                  key={p.id}
+                  slug={p.slug}
+                  title={p.title}
+                  category={p.category}
+                  platform={p.platform}
+                  date={formatDate(p.published_at)}
+                  excerpt={p.excerpt ?? undefined}
+                  image={p.cover_image ?? '/placeholder.svg'}
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </div>

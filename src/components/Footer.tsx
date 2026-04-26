@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-10">
           <div className="space-y-4 md:col-span-1">
             <h2 className="font-display text-2xl font-semibold tracking-tight">
-              Pixel<span className="text-accent italic">Critic</span>
+              Den<span className="text-accent italic">orbit</span>
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Honest, in-depth reviews of digital products and themes — written by people who actually ship with them.
@@ -53,7 +53,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} PixelCritic. Independent reviews. No paid placements.</p>
+          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Denorbit. Independent reviews. No paid placements.</p>
           <p className="text-xs text-muted-foreground italic font-display">Made with care, not algorithms.</p>
         </div>
       </div>
