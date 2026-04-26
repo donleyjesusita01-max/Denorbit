@@ -1,13 +1,24 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BlogCard from '@/components/BlogCard';
+import JsonLd from '@/components/JsonLd';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { categoryLabel, platformLabel } from '@/lib/categories';
 import { usePublishedPosts, type Post } from '@/hooks/usePosts';
+
+const SITE_URL = 'https://denorbit.online';
+const ORG_ID = `${SITE_URL}/#organization`;
+
+const stripHtml = (html: string) =>
+  html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 const formatDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
@@ -85,8 +96,75 @@ const BlogDetail = () => {
     })
     .slice(0, 3);
 
+  const postUrl = post ? `${SITE_URL}/blog/${post.slug}` : '';
+  const description =
+    post?.excerpt?.trim() ||
+    (post?.content ? stripHtml(post.content).slice(0, 160) : '') ||
+    `Independent review of ${post?.title ?? ''} on Denorbit.`;
+
+  // Update <title>, meta description, and canonical for crawlers + social.
+  useEffect(() => {
+    if (!post) return;
+    const prevTitle = document.title;
+    document.title = `${post.title} — Denorbit`;
+
+    const setMeta = (selector: string, attr: 'content' | 'href', value: string) => {
+      const el = document.head.querySelector(selector);
+      if (el) el.setAttribute(attr, value);
+    };
+    setMeta('meta[name="description"]', 'content', description);
+    setMeta('link[rel="canonical"]', 'href', postUrl);
+    setMeta('meta[property="og:title"]', 'content', post.title);
+    setMeta('meta[property="og:description"]', 'content', description);
+    setMeta('meta[property="og:url"]', 'content', postUrl);
+    setMeta('meta[property="og:type"]', 'content', 'article');
+
+    return () => {
+      document.title = prevTitle;
+      setMeta('meta[property="og:type"]', 'content', 'website');
+      setMeta('link[rel="canonical"]', 'href', `${SITE_URL}/`);
+    };
+  }, [post, description, postUrl]);
+
+  const blogPostingSchema = post && {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${postUrl}#article`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    headline: post.title,
+    description,
+    url: postUrl,
+    datePublished: post.published_at ?? post.created_at,
+    dateModified: post.updated_at ?? post.published_at ?? post.created_at,
+    inLanguage: 'en',
+    articleSection: categoryLabel(post.category),
+    keywords: [categoryLabel(post.category), platformLabel(post.platform), 'review'].join(', '),
+    image: post.cover_image
+      ? [{ '@type': 'ImageObject', url: post.cover_image }]
+      : undefined,
+    author: { '@type': 'Organization', '@id': ORG_ID, name: 'Denorbit' },
+    publisher: { '@type': 'Organization', '@id': ORG_ID, name: 'Denorbit' },
+  };
+
+  const breadcrumbSchema = post && {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: categoryLabel(post.category),
+        item: `${SITE_URL}/category/${post.category}`,
+      },
+      { '@type': 'ListItem', position: 3, name: post.title, item: postUrl },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      {post && blogPostingSchema && <JsonLd id="blogposting" data={blogPostingSchema} />}
+      {post && breadcrumbSchema && <JsonLd id="breadcrumb" data={breadcrumbSchema} />}
       <Header />
       <main className="py-16">
         <article className="container-blog max-w-3xl">

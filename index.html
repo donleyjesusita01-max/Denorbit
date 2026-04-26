@@ -11,12 +11,12 @@
     <title>Denorbit — Honest reviews of digital products & themes</title>
     <meta name="description" content="In-depth reviews of WordPress themes, Shopify templates, Framer & Webflow designs, and the plugins that power them. Curated by humans, for makers." />
     <meta name="author" content="Denorbit" />
-    <link rel="canonical" href="https://denorbit.lovable.app/" />
+    <link rel="canonical" href="https://denorbit.online/" />
 
     <meta property="og:title" content="Denorbit — Honest reviews of digital products & themes" />
     <meta property="og:description" content="In-depth reviews of WordPress themes, Shopify templates, Framer & Webflow designs, and the plugins that power them." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://denorbit.lovable.app/" />
+    <meta property="og:url" content="https://denorbit.online/" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@denorbit" />
@@ -24,11 +24,45 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Blog",
-      "name": "Denorbit",
-      "description": "Honest reviews of digital products and themes for WordPress, Shopify, Framer and Webflow.",
-      "url": "https://denorbit.lovable.app/",
-      "publisher": { "@type": "Organization", "name": "Denorbit" }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://denorbit.online/#organization",
+          "name": "Denorbit",
+          "url": "https://denorbit.online/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://denorbit.online/placeholder.svg",
+            "width": 512,
+            "height": 512
+          },
+          "sameAs": ["https://twitter.com/denorbit"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://denorbit.online/#website",
+          "url": "https://denorbit.online/",
+          "name": "Denorbit",
+          "description": "Honest reviews of digital products and themes for WordPress, Shopify, Framer and Webflow.",
+          "publisher": { "@id": "https://denorbit.online/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://denorbit.online/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Blog",
+          "@id": "https://denorbit.online/#blog",
+          "url": "https://denorbit.online/",
+          "name": "Denorbit",
+          "description": "Independent, hands-on reviews of digital products for WordPress, Shopify, Framer, and Webflow.",
+          "publisher": { "@id": "https://denorbit.online/#organization" }
+        }
+      ]
     }
     </script>
   </head>
