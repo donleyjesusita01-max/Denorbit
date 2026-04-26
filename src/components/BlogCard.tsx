@@ -16,7 +16,7 @@ const BlogCard = ({
   title, category, platform, date, excerpt, image, slug, isSmall = false,
 }: BlogCardProps) => {
   return (
-    <article className="blog-card group">
+    <article className="blog-card group bg-card border border-border rounded-md overflow-hidden hover:shadow-[var(--shadow-lift)] transition-shadow">
       <Link
         to={`/blog/${slug}`}
         className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
@@ -31,13 +31,13 @@ const BlogCard = ({
             decoding="async"
           />
           {platform && (
-            <span className="absolute top-3 left-3 bg-background/90 backdrop-blur text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground px-2 py-1">
+            <span className="absolute top-3 left-3 bg-background/90 backdrop-blur text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground px-2 py-1 rounded">
               {platformLabel(platform)}
             </span>
           )}
         </div>
 
-        <div className={`pt-5 space-y-3 ${isSmall ? 'space-y-2' : ''}`}>
+        <div className={`px-5 py-5 space-y-3 ${isSmall ? 'space-y-2' : ''}`}>
           <div className="flex items-center gap-3">
             <span className="blog-meta">{categoryLabel(category)}</span>
             <span className="text-muted-foreground/60 text-xs" aria-hidden>·</span>

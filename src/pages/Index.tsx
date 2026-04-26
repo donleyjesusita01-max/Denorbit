@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import IntroHero from '@/components/IntroHero';
 import CategoryShowcase from '@/components/CategoryShowcase';
 import BlogGrid from '@/components/BlogGrid';
+import FAQSection from '@/components/FAQSection';
 
 const Index = () => {
   return (
@@ -12,6 +13,7 @@ const Index = () => {
         <IntroHero />
         <CategoryShowcase />
         <BlogGrid />
+        <FAQSection />
       </main>
       <Footer />
     </div>
