@@ -24,11 +24,45 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Blog",
-      "name": "Denorbit",
-      "description": "Honest reviews of digital products and themes for WordPress, Shopify, Framer and Webflow.",
-      "url": "https://denorbit.lovable.app/",
-      "publisher": { "@type": "Organization", "name": "Denorbit" }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://denorbit.online/#organization",
+          "name": "Denorbit",
+          "url": "https://denorbit.online/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://denorbit.online/placeholder.svg",
+            "width": 512,
+            "height": 512
+          },
+          "sameAs": ["https://twitter.com/denorbit"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://denorbit.online/#website",
+          "url": "https://denorbit.online/",
+          "name": "Denorbit",
+          "description": "Honest reviews of digital products and themes for WordPress, Shopify, Framer and Webflow.",
+          "publisher": { "@id": "https://denorbit.online/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://denorbit.online/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Blog",
+          "@id": "https://denorbit.online/#blog",
+          "url": "https://denorbit.online/",
+          "name": "Denorbit",
+          "description": "Independent, hands-on reviews of digital products for WordPress, Shopify, Framer, and Webflow.",
+          "publisher": { "@id": "https://denorbit.online/#organization" }
+        }
+      ]
     }
     </script>
   </head>
