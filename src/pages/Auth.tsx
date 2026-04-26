@@ -57,7 +57,7 @@ const Auth = () => {
       <main className="container-blog py-20 flex justify-center">
         <Card className="w-full max-w-md p-8 shadow-soft">
           <div className="mb-8 text-center">
-            <h1 className="font-display text-3xl font-semibold tracking-tight">Welcome to PixelCritic</h1>
+            <h1 className="font-display text-3xl font-semibold tracking-tight">Welcome to Denorbit</h1>
             <p className="text-sm text-muted-foreground mt-2">Sign in to manage reviews.</p>
           </div>
 

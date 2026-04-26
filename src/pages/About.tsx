@@ -13,7 +13,7 @@ const About = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              About Nexus
+              About Denorbit
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Exploring the intersection of fashion, technology, business, and lifestyle
@@ -38,7 +38,7 @@ const About = () => {
               <h2 className="text-3xl font-bold text-foreground">Our Story</h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Welcome to Nexus, where diverse worlds converge. Founded with a passion for exploring 
+                  Welcome to Denorbit, where diverse worlds converge. Founded with a passion for exploring 
                   the connections between fashion, technology, business, and lifestyle, we believe that 
                   the most interesting insights happen at the intersections.
                 </p>
