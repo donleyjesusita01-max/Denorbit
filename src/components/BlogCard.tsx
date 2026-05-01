@@ -16,13 +16,13 @@ const BlogCard = ({
   title, category, platform, date, excerpt, image, slug, isSmall = false,
 }: BlogCardProps) => {
   return (
-    <article className="blog-card group bg-card border border-border rounded-md overflow-hidden hover:shadow-[var(--shadow-lift)] transition-shadow">
+    <article className="blog-card group bg-card border border-border rounded-lg overflow-hidden hover:shadow-[var(--shadow-lift)] hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
       <Link
         to={`/blog/${slug}`}
-        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background h-full flex flex-col"
         aria-label={`Read: ${title}`}
       >
-        <div className={`relative overflow-hidden bg-muted ${isSmall ? 'aspect-[4/3]' : 'aspect-[16/10]'}`}>
+        <div className="relative overflow-hidden bg-muted aspect-[16/10]">
           <img
             src={image}
             alt={title}
