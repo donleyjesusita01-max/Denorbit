@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SkipLink from "@/components/SkipLink";
+import ScrollToTop from "@/components/ScrollToTop";
 import { Suspense, lazy } from "react";
 import Index from "./pages/Index";
 import { AuthProvider } from "@/hooks/useAuth";
@@ -32,6 +33,7 @@ const App = () => (
       <TooltipProvider>
         <BrowserRouter>
           <AuthProvider>
+            <ScrollToTop />
             <SkipLink />
             <Toaster />
             <Sonner />
