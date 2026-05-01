@@ -43,8 +43,7 @@ const BlogGrid = () => {
       </div>
 
       {isLoading ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
-          {Array.from({ length: 8 }).map((_, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
             <div key={i} className="space-y-4">
               <Skeleton className="aspect-[16/10] w-full" />
               <Skeleton className="h-4 w-32" />
