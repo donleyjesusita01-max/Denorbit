@@ -146,7 +146,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-medium text-foreground">Email</h3>
-                      <p className="text-muted-foreground">hello@nexusblog.com</p>
+                      <p className="text-muted-foreground">Vinitshukla200@gmail.com</p>
                       <p className="text-sm text-muted-foreground">
                         We typically respond within 24 hours
                       </p>
