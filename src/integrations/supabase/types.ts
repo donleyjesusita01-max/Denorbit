@@ -23,6 +23,8 @@ export type Database = {
           created_at: string
           excerpt: string | null
           id: string
+          meta_description: string | null
+          meta_title: string | null
           platform: Database["public"]["Enums"]["post_platform"]
           published: boolean
           published_at: string | null
@@ -38,6 +40,8 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          meta_description?: string | null
+          meta_title?: string | null
           platform?: Database["public"]["Enums"]["post_platform"]
           published?: boolean
           published_at?: string | null
@@ -53,6 +57,8 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          meta_description?: string | null
+          meta_title?: string | null
           platform?: Database["public"]["Enums"]["post_platform"]
           published?: boolean
           published_at?: string | null
