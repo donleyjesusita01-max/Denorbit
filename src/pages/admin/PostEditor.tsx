@@ -62,6 +62,8 @@ const PostEditor = () => {
       setExcerpt(data.excerpt ?? '');
       setContent(data.content ?? '');
       setCoverImage(data.cover_image ?? '');
+      setMetaTitle((data as any).meta_title ?? '');
+      setMetaDescription((data as any).meta_description ?? '');
       setCategory(data.category as CategorySlug);
       setPlatform(data.platform as PlatformSlug);
       setPublished(data.published);
@@ -81,6 +83,8 @@ const PostEditor = () => {
       excerpt: excerpt.trim() || null,
       content: content.trim() || null,
       cover_image: coverImage.trim() || null,
+      meta_title: metaTitle.trim() || null,
+      meta_description: metaDescription.trim() || null,
       category, platform, published,
       author_id: user?.id ?? null,
     };

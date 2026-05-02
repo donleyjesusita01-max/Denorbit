@@ -8,6 +8,8 @@ export type Post = {
   excerpt: string | null;
   content: string | null;
   cover_image: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
   category: 'themes' | 'templates' | 'plugins' | 'tutorials';
   platform: 'wordpress' | 'shopify' | 'framer' | 'webflow' | 'other';
   author_id: string | null;
