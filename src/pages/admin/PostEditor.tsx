@@ -260,6 +260,9 @@ const PostEditor = () => {
                 />
               </div>
             </div>
+
+            <div className="space-y-2">
+              <Label>Article body</Label>
               <RichTextEditor
                 value={content}
                 onChange={setContent}
