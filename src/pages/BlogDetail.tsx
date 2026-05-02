@@ -98,15 +98,17 @@ const BlogDetail = () => {
 
   const postUrl = post ? `${SITE_URL}/blog/${post.slug}` : '';
   const description =
+    post?.meta_description?.trim() ||
     post?.excerpt?.trim() ||
     (post?.content ? stripHtml(post.content).slice(0, 160) : '') ||
     `Independent review of ${post?.title ?? ''} on Denorbit.`;
+  const pageTitle = post?.meta_title?.trim() || (post ? `${post.title} — Denorbit` : '');
 
   // Update <title>, meta description, and canonical for crawlers + social.
   useEffect(() => {
     if (!post) return;
     const prevTitle = document.title;
-    document.title = `${post.title} — Denorbit`;
+    document.title = pageTitle;
 
     const setMeta = (selector: string, attr: 'content' | 'href', value: string) => {
       const el = document.head.querySelector(selector);
@@ -114,7 +116,7 @@ const BlogDetail = () => {
     };
     setMeta('meta[name="description"]', 'content', description);
     setMeta('link[rel="canonical"]', 'href', postUrl);
-    setMeta('meta[property="og:title"]', 'content', post.title);
+    setMeta('meta[property="og:title"]', 'content', post.meta_title?.trim() || post.title);
     setMeta('meta[property="og:description"]', 'content', description);
     setMeta('meta[property="og:url"]', 'content', postUrl);
     setMeta('meta[property="og:type"]', 'content', 'article');
@@ -124,7 +126,7 @@ const BlogDetail = () => {
       setMeta('meta[property="og:type"]', 'content', 'website');
       setMeta('link[rel="canonical"]', 'href', `${SITE_URL}/`);
     };
-  }, [post, description, postUrl]);
+  }, [post, description, postUrl, pageTitle]);
 
   const blogPostingSchema = post && {
     '@context': 'https://schema.org',
