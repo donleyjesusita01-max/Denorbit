@@ -217,8 +217,49 @@ const PostEditor = () => {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label>Article body</Label>
+            <div className="border-t border-border pt-5 space-y-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-1">
+                  Search engine optimization
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Optional. If left empty, the title and excerpt above are used.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="meta_title">Meta title</Label>
+                  <span className={`text-[11px] ${metaTitle.length > 60 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    {metaTitle.length}/60
+                  </span>
+                </div>
+                <Input
+                  id="meta_title"
+                  value={metaTitle}
+                  onChange={(e) => setMetaTitle(e.target.value)}
+                  placeholder={title || 'Custom title shown on Google and browser tabs'}
+                  maxLength={120}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="meta_description">Meta description</Label>
+                  <span className={`text-[11px] ${metaDescription.length > 160 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    {metaDescription.length}/160
+                  </span>
+                </div>
+                <Textarea
+                  id="meta_description"
+                  value={metaDescription}
+                  onChange={(e) => setMetaDescription(e.target.value)}
+                  rows={3}
+                  placeholder={excerpt || 'Short snippet shown in Google search results (150–160 chars).'}
+                  maxLength={300}
+                />
+              </div>
+            </div>
               <RichTextEditor
                 value={content}
                 onChange={setContent}
