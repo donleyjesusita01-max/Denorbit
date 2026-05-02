@@ -39,6 +39,8 @@ const PostEditor = () => {
   const [excerpt, setExcerpt] = useState('');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
   const [category, setCategory] = useState<CategorySlug>('themes');
   const [platform, setPlatform] = useState<PlatformSlug>('other');
   const [published, setPublished] = useState(false);
